@@ -47,6 +47,7 @@
  * - Fully reset device through RESET BUTTON pressed.       
  * 
  * @Author: Giorgos Tsapparellas
+ * @Date:   25th February 2018
  * 
  * Code available at: 1) https://os.mbed.com/users/GTsapparellas/code/LoRaWAN_mbed_lmic_agriculture_app/
  *                    2) https://github.com/GTsapparellas/LoRaWAN_mbed_lmic_agriculture_app
@@ -68,7 +69,7 @@
 
 #define MAX_EU_CHANNELS 16     // Frequency channels automatically initialized for EU reqion. 
 #define SINGLE_CHANNEL_GATEWAY // Force it to use 868.1 MHz frequency band only due to Dragino LG01-P LoRa Gateway hardware limitation.   
-#define TRANSMIT_INTERVAL 300 // Transmit interval in seconds, too often may get traffic ignored.
+#define TRANSMIT_INTERVAL 300  // Transmit interval in seconds, too often may get traffic ignored.
 #define DEBUG_LEVEL 0          // Set debug level to 1 for outputting messages to the UART Terminal (e.g. Tera Term).
 #define ACTIVATION_METHOD 0    // Set activation method to 0 for ABP (Activation By Personalization)
                                // Set activation method to 1 for OTAA (Over The Air Activation)
@@ -320,8 +321,6 @@ void setUp() {
      
     // Set data rate and transmit power.
     LMIC_setDrTxpow(DR_SF7,txPower);
-
-    //fflush(stdout);
     
     // If single-channel gateway is being used disable 
     // all the other channels except channel 0. 
@@ -350,7 +349,6 @@ void setUp() {
  *
  * Input parameters: float temperature
  *                   float humidity
- *
  */ 
 void getTemperatureHumidity(float& temperature, float& humidity) {
 
@@ -503,7 +501,7 @@ void transmit(osjob_t* j)
         // array's position least significant bits are taken as the desired 
         // value for each sensor measurement.
         // This procedure is required in order to send playload data
-        // to The Things Network Cloud Server.
+        // to the gateway which forwards it to The Things Network Cloud Server.
         // Data will then be converted in a meaningful way through 
         // All Things Talk ABCL custom JSON binary conversion script.  
         LMIC.frame[0] = temp >> 8;
